@@ -28,9 +28,9 @@ https://docs.google.com/presentation/d/1gbud1U1vlG9NkaZqfUMHHUfbjR5iDoXvSDOued8R
 `python train_[image].py`
 
 ## 学習結果
-学習曲線
+
 ![learning_curve](./png/learning_curve2.png)
-評価スコア
+
 ![result](./png/result2.png)
 
 + 「自発運動から随意運動へ」の解釈として、前半は触れたら報酬、後半は落としたら報酬という設定が学習が早く成績も良いモデルになった
