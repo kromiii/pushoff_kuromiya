@@ -20,7 +20,7 @@ game_processes = []
 # port render_freq msg_freq server
 if linux:
     game_processes.append(
-        subprocess.Popen("./game_linux.x86_64 5001 200 100 1 a", shell=True, stdout=subprocess.PIPE,
+        subprocess.Popen("./game_linux.x86_64 5003 200 100 1 a", shell=True, stdout=subprocess.PIPE,
                          preexec_fn=os.setsid))
 else:
     game_processes.append(
@@ -30,7 +30,7 @@ else:
 time.sleep(7)
 
 game = gym.make('Unity-v0')
-game.configure("5001")
+game.configure("5003")
 
 def signal_handler(signal, frame):
     print("killing game processes...")
@@ -52,7 +52,7 @@ def get_extra(obs):
 
 def get_coords(extra):
     coords = np.array(extra['coords'])
-    ret = coords[coords != 0.0]
+    ret = coords
     return ret
 
 def agent_act(a_i):
@@ -91,15 +91,13 @@ replay_buffer = chainerrl.replay_buffer.ReplayBuffer(capacity=10 ** 6)
 phi = lambda x: x.astype(np.float32, copy=False)
 
 agent = chainerrl.agents.DoubleDQN(q_func, optimizer, replay_buffer, gamma, explorer, minibatch_size = 4, replay_start_size = 500, update_interval = 1, target_update_interval = 100, phi=phi)
-agent.load("agent_coords")
+agent.load("agent_coscoords")
 
 reward = 0
-rewards = []
-with open("pickle/rewards_coords.pickle", "rb") as f:
-    rewards = pickle.load(f)
+evals = {"rewards":[], "coords":[]}
 obs = [0, 0]
 
-for i in range(5501):
+for i in range(501):
     print("episode{0}----------".format(i))
 
     # act
@@ -109,16 +107,16 @@ for i in range(5501):
     obs = coords[[0,2]]
     print(obs)
 
-    a_i = agent.act_and_train(obs, reward)
+    a_i = agent.act(obs)
     my_vec = agent_act(a_i)
     new_observation, reward, _, _ = game.step("move %s 0 %s" % (my_vec[0], my_vec[1]))
-    rewards.append(reward)
+    evals['rewards'].append(reward)
+    evals['coords'].append(coords)
 
     if reward > 0:
         print("reward: %s" % reward)
     if i%100 == 0:
-        agent.save('agent_coords')
-        with open("pickle/rewards_coords.pickle", mode="wb") as f:
-            pickle.dump(rewards, f)
+        with open("pickle/eval_coscoords.pickle", mode="wb") as f:
+            pickle.dump(evals, f)
 
-agent.stop_episode_and_train(obs, reward, True)
+print("finished!")

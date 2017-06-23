@@ -124,7 +124,7 @@ for i in range(501):
     new_obs = new_coords[[0,2]]
 
     if i%100 == 0:
-        with open("eval_cos.pickle", mode="wb") as f:
+        with open("pickle/eval_cos.pickle", mode="wb") as f:
             pickle.dump(evals, f)
 
 print("finished!")

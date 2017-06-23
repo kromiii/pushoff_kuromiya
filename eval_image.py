@@ -139,7 +139,7 @@ for i in range(501):
     if reward > 0:
         print("reward: %s" % reward)
     if i%100 == 0:
-        with open("eval_image.pickle", mode="wb") as f:
+        with open("pickle/eval_image.pickle", mode="wb") as f:
             pickle.dump(evals, f)
 
 print('finished!')

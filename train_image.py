@@ -103,11 +103,11 @@ agent = chainerrl.agents.DoubleDQN(q_func, optimizer, replay_buffer, gamma, expl
 agent.load("agent_image")
 reward = 0
 rewards = []
-with open("rewards_image.pickle", "rb") as f:
+with open("pickle/rewards_image.pickle", "rb") as f:
     rewards = pickle.load(f)
 image_obs = np.array([])
 
-for i in range(10000):
+for i in range(5501):
     print("episode{0}----------".format(i))
 
     # act
@@ -130,7 +130,7 @@ for i in range(10000):
         print("reward: %s" % reward)
     if i%100 == 0:
         agent.save('agent_image')
-        with open("rewards_image.pickle", mode="wb") as f:
+        with open("pickle/rewards_image.pickle", mode="wb") as f:
             pickle.dump(rewards, f)
 
 agent.stop_episode_and_train(image_obs, reward, True)

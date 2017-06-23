@@ -103,11 +103,11 @@ agent.load("agent_cos")
 reward = 0
 cos_reward = 0
 rewards = []
-with open("rewards_cos.pickle", "rb") as f:
+with open("pickle/rewards_cos.pickle", "rb") as f:
     rewards = pickle.load(f)
 obs = [0, 0]
 
-for i in range(2800):
+for i in range(5501):
     print("episode{0}----------".format(i))
 
     # act
@@ -128,7 +128,7 @@ for i in range(2800):
     print("cos_reward: %s" % cos_reward)
     if i%100 == 0:
         agent.save('agent_cos')
-        with open("rewards_cos.pickle", mode="wb") as f:
+        with open("pickle/rewards_cos.pickle", mode="wb") as f:
             pickle.dump(rewards, f)
 
 agent.stop_episode_and_train(obs, cos_reward, True)
