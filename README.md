@@ -1,4 +1,4 @@
-# Crane Challenge Round1 黒宮
+# Crane Challenge Round1
 ## 発達心理学的なバックグラウンド
 ピアジェの『発生的認識論』
 https://docs.google.com/presentation/d/1gbud1U1vlG9NkaZqfUMHHUfbjR5iDoXvSDOued8R2Ds/edit?usp=sharing
